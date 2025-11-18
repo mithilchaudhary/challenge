@@ -1,4 +1,4 @@
-# Challenge Workspace
+# Intuit Build Challenge
 
 Two independent exercises from Intuit's build challenge that showcase concurrency patterns and functional data analytics:
 

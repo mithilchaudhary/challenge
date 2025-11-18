@@ -1,9 +1,8 @@
-# challenge
+# Producer-Consumer pattern with Blocking Queue and Wait/Notify
 
-This folder contains a self-contained producer/consumer simulation. Everything
-from the queue implementation to the CLI entry point lives right here. The
+This folder contains the producer/consumer simulation from part 1. The
 producer and consumer add a random 0–1 second pause before every queue action
-and verbosely print the queue contents so you can watch the flow.
+and print the queue contents so you can watch the flow step-by-step.
 
 ## Run the demo (repo root)
 
@@ -59,11 +58,5 @@ Lists match: True
 
 - Exactly one producer thread feeds the queue and one consumer drains it.
 - Each queue interaction sleeps for a random 0–1 seconds to make the flow visible.
-- A unique sentinel object marks completion; it is enqueued after the final payload and the consumer exits as soon as it dequeues that marker.
+- A unique object marks completion; it is enqueued after the final payload and the consumer exits as soon as it dequeues that marker.
 - Logging is intentionally noisy so you can observe every enqueue/dequeue; tests also exercise the real logging/delay behavior.
-
-## Looking ahead
-
-A separate folder will host part 2 (CSV-based sales analytics with functional
-style streams). Keeping this simulation isolated here lets each part evolve
-independently.

@@ -16,6 +16,7 @@ class BlockingQueue:
         self._cond = Condition()
 
     def put(self, item: object, *, actor: str = "Producer") -> None:
+        # Blocks when full, then enqueues the item once capacity frees up.
         with self._cond:
             while len(self._queue) >= self._maxsize:
                 self._cond.wait()
@@ -24,6 +25,7 @@ class BlockingQueue:
             self._cond.notify_all()
 
     def get(self, *, actor: str = "Consumer") -> object:
+        # Blocks when empty, popping the next available item.
         with self._cond:
             while not self._queue:
                 self._cond.wait()
@@ -33,6 +35,7 @@ class BlockingQueue:
             return item
 
     def size(self) -> int:
+        # Returns the current number of queued items under the lock.
         with self._cond:
             return len(self._queue)
 
@@ -47,6 +50,7 @@ class Producer(Thread):
         self._sentinel = sentinel
 
     def run(self) -> None:
+        # Streams source values into the queue and finally sends the sentinel.
         for item in self._source:
             time.sleep(random.uniform(0, 1))
             self._queue.put(item, actor=self.name)
@@ -64,6 +68,7 @@ class Consumer(Thread):
         self._sentinel = sentinel
 
     def run(self) -> None:
+        # Pulls items until the sentinel arrives, appending to the destination.
         while True:
             time.sleep(random.uniform(0, 1))
             item = self._queue.get(actor=self.name)
@@ -73,7 +78,7 @@ class Consumer(Thread):
 
 
 def run_transfer(source: Iterable[int], maxsize: int = 5) -> List[int]:
-    """Helper that wires the producer and consumer and returns the drained values."""
+    """Helper that connects the producer and consumer and returns the drained values."""
 
     data = list(source)
     destination: List[int] = []

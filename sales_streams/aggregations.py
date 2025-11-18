@@ -4,10 +4,12 @@ import pandas as pd
 
 
 def _safe_divide(numerator: pd.Series, denominator: pd.Series) -> pd.Series:
+    """Divides with zero-protection so avg calculations don’t explode."""
     return numerator / denominator.replace({0: pd.NA})
 
 
 def sales_by_product_line(frame: pd.DataFrame) -> pd.DataFrame:
+    """Summarizes revenue, units sold, and price per product line."""
     grouped = (
         frame.groupby("PRODUCTLINE", dropna=False)
         .agg(total_sales=("SALES", "sum"), units_sold=("QUANTITYORDERED", "sum"))
@@ -18,6 +20,7 @@ def sales_by_product_line(frame: pd.DataFrame) -> pd.DataFrame:
 
 
 def top_customers(frame: pd.DataFrame, top_n: int = 5) -> pd.DataFrame:
+    """Ranks customers (optionally top N) by aggregated sales totals."""
     ranked = (
         frame.groupby(["CUSTOMERNAME", "COUNTRY"], dropna=False)
         .agg(total_sales=("SALES", "sum"))
@@ -28,6 +31,7 @@ def top_customers(frame: pd.DataFrame, top_n: int = 5) -> pd.DataFrame:
 
 
 def quarterly_performance(frame: pd.DataFrame) -> pd.DataFrame:
+    """Aggregates quarterly revenue and computes QoQ growth."""
     ordered = (
         frame.groupby(["YEAR_ID", "QTR_ID"], dropna=False)
         .agg(total_sales=("SALES", "sum"))
@@ -48,6 +52,7 @@ def quarterly_performance(frame: pd.DataFrame) -> pd.DataFrame:
     return ordered[["YEAR_ID", "QTR_ID", "quarter", "total_sales", "qoq_growth"]]
 
 
+# Human-readable menu used by runner.py to print each analysis.
 ANALYSES = {
     "Revenue by product line": sales_by_product_line,
     "Top customers": top_customers,

@@ -10,17 +10,16 @@ if str(MODULE_DIR) not in sys.path:
 
 import main as pc 
 
-
-
-
 class RunTransferTests(unittest.TestCase):
     def test_transfer_moves_all_items(self) -> None:
+        # Ensures every source entry arrives in the destination in order.
         print("Running: transfer moves all items")
         numbers = list(range(1, 6))
         result = pc.run_transfer(numbers, maxsize=2)
         self.assertEqual(result, numbers)
 
     def test_transfer_handles_empty_source(self) -> None:
+        # Empty inputs should drain to an empty destination without hanging.
         print("Running: transfer handles empty source")
         result = pc.run_transfer([], maxsize=2)
         self.assertEqual(result, [])
@@ -28,6 +27,7 @@ class RunTransferTests(unittest.TestCase):
 
 class ConsumerLifecycleTests(unittest.TestCase):
     def test_consumer_stops_on_sentinel(self) -> None:
+        # Sentinel should terminate the consumer after draining prior items.
         print("Running: consumer stops on sentinel")
         queue = pc.BlockingQueue(maxsize=3)
         destination: list[int] = []
@@ -46,6 +46,7 @@ class ConsumerLifecycleTests(unittest.TestCase):
 
 class BlockingQueueTests(unittest.TestCase):
     def test_put_blocks_until_space_available(self) -> None:
+        # Second put must wait until the consumer frees a slot.
         print("Running: queue blocks until space available")
         queue = pc.BlockingQueue(maxsize=1)
         first_put = Event()

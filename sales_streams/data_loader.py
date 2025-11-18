@@ -5,6 +5,7 @@ from typing import Iterable
 
 import pandas as pd
 
+# Columns that should be numeric in the typed DataFrame.
 _NUMERIC_COLUMNS: tuple[str, ...] = (
     "ORDERNUMBER",
     "QUANTITYORDERED",
@@ -19,6 +20,7 @@ _NUMERIC_COLUMNS: tuple[str, ...] = (
 
 
 def _coerce_numeric(df: pd.DataFrame, columns: Iterable[str]) -> pd.DataFrame:
+    """Returns a copy with the requested columns converted via pd.to_numeric."""
     frame = df.copy()
     for column in columns:
         frame[column] = pd.to_numeric(frame[column], errors="coerce")

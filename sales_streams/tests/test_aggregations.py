@@ -15,6 +15,7 @@ import aggregations
 
 @pytest.fixture()
 def sample_frame() -> pd.DataFrame:
+    # reusable mini dataset covering multiple product lines and quarters.
     return pd.DataFrame(
         {
             "PRODUCTLINE": [
@@ -49,11 +50,13 @@ def sample_frame() -> pd.DataFrame:
 
 @pytest.fixture()
 def empty_frame(sample_frame: pd.DataFrame) -> pd.DataFrame:
+    # Empty DataFrame fixture verifies guard rails against missing data.
     return sample_frame.head(0).copy()
 
 
 @pytest.fixture()
 def single_row_frame(sample_frame: pd.DataFrame) -> pd.DataFrame:
+    # Single row fixture confirms analytics pass through minimal inputs unchanged.
     return sample_frame.head(1).copy()
 
 
@@ -87,7 +90,7 @@ def test_empty_frame_returns_empty_results(empty_frame: pd.DataFrame) -> None:
 
 
 def test_single_row_frame_preserves_values(single_row_frame: pd.DataFrame) -> None:
-    """A single order should flow through every aggregation unchanged."""
+    # Single-row inputs must pass through unchanged and report zero growth.
     row = single_row_frame.iloc[0]
 
     product = aggregations.sales_by_product_line(single_row_frame)

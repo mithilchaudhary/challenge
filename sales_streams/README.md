@@ -4,6 +4,8 @@ Functional-style analytics pipelines for the `sales_data_sample.csv` dataset usi
 
 Dataset courtesy of Kaggle: [Sample Sales Data](https://www.kaggle.com/datasets/kyanyoga/sample-sales-data?resource=download).
 
+The CSV captures classic car orders with columns such as `ORDERNUMBER`, `ORDERDATE`, `PRODUCTLINE`, `CUSTOMERNAME`, `COUNTRY`, `SALES`, `QUANTITYORDERED`, `PRICEEACH`, and `YEAR_ID`/`QTR_ID`, giving enough context to aggregate by product mix, customers, and time.
+
 ## Highlights
 - Pure functions: every helper keeps I/O at the edges and returns fresh DataFrames.
 - No custom stream abstraction, just method chaining, lambdas, and aggregation maps.
