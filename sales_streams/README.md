@@ -84,5 +84,5 @@ Quarterly revenue
 
 ## Dataset Notes
 - Source: Kaggle’s [Sample Sales Data](https://www.kaggle.com/datasets/kyanyoga/sample-sales-data?resource=download), downloaded as `sales_data_sample.csv` and stored at the repository root per the challenge instructions.
-- Type coercion: `data_loader.py` converts the numeric measure columns (quantity, sales, MSRP, etc.) with `pd.to_numeric` and parses `ORDERDATE` into pandas timestamps so groupings stay numeric-safe.
+- Type coercion: `data_loader.py` converts the numerical measure columns (quantity, sales, MSRP, etc.) with `pd.to_numeric` and parses `ORDERDATE` into pandas timestamps so groupings stay safe.
 - Missing values: `TERRITORY` falls back to `"Unknown"`, while `STATE`/`POSTALCODE` default to empty strings so joins/grouping aren’t affected by NaNs. This assumption is captured directly in `data_loader.py`.
